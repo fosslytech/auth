@@ -79,6 +79,32 @@ export interface ITranslations {
         password2: string;
       };
     };
+    user: {
+      details: {
+        title: string;
+        download: string;
+        provider: {
+          gitlab: string;
+          github: string;
+          email: string;
+        };
+      };
+      danger: {
+        title: string;
+
+        deleteDocDescription: string;
+        deleteDocButton: string;
+
+        deleteAccDescription: string;
+        deleteAccButton: string;
+      };
+    };
+    user_deleted: {
+      title: string;
+      description: string;
+      newAcc: string;
+      goBack: string;
+    };
 
     error: {
       title: string;

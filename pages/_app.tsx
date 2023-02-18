@@ -11,6 +11,7 @@ import JoinedCTXProvider from 'src/store/CTX';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Head from 'next/head';
+import { ModalsProvider } from '@mantine/modals';
 
 const App = ({ Component, pageProps }) => {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
@@ -31,16 +32,18 @@ const App = ({ Component, pageProps }) => {
               fontFamily: 'Inter, sans-serif',
             }}
           >
-            <NotificationsProvider>
-              <Head>
-                <title>Fossly Auth</title>
-                <meta name="description" content="Fossly Tech authentication" />
-                <link rel="icon" href="/favicon.ico" />
+            <ModalsProvider>
+              <NotificationsProvider>
+                <Head>
+                  <title>Fossly Auth</title>
+                  <meta name="description" content="Fossly Tech authentication" />
+                  <link rel="icon" href="/favicon.ico" />
 
-                <link rel="manifest" href="/manifest.json" />
-              </Head>
-              {getLayout(<Component {...pageProps} />)}
-            </NotificationsProvider>
+                  <link rel="manifest" href="/manifest.json" />
+                </Head>
+                {getLayout(<Component {...pageProps} />)}
+              </NotificationsProvider>
+            </ModalsProvider>
           </MantineProvider>
         </ColorSchemeProvider>
       </SessionContextProvider>

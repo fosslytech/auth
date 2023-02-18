@@ -70,6 +70,27 @@
         "password2": "Please repeat password"
       }
     },
+    "user": {
+      "details": {
+        "title": "Details",
+        "download": "Download my data"
+      },
+      "danger": {
+        "title": "Danger zone",
+
+        "deleteDocDescription": "This action is irreversable, you won't be able to recover your documents!",
+        "deleteDocButton": "Delete my documents",
+
+        "deleteAccDescription": "Once you delete your account there is no going back, all your data and documents are gone forever!",
+        "deleteAccButton": "Delete account"
+      }
+    },
+    "user_deleted": {
+      "title": "We're sad to see you go",
+      "description": "",
+      "newAcc": "Create new account",
+      "goBack": "Return to the app"
+    },
 
     "error": {
       "title": "You have found a secret place",
