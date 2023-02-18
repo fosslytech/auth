@@ -36,9 +36,11 @@ const AppHeader = () => {
 
         {process.env.NODE_ENV === 'development' && <Text>{redirectTo}</Text>}
 
-        <Button size="sm" ml="lg" onClick={() => window.location.replace(redirectTo)}>
-          Go back
-        </Button>
+        {redirectTo && (
+          <Button size="sm" ml="lg" onClick={() => window.location.replace(redirectTo)}>
+            Go back
+          </Button>
+        )}
       </div>
     </Header>
   );

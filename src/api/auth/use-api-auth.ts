@@ -4,6 +4,7 @@ import { AuthResponse } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useGlobalCtx from 'src/store/global/use-global-ctx';
+import useFetch from '../use-fetch';
 
 export interface AuthDTO {
   email: string;
@@ -18,11 +19,20 @@ const handleErrorNotification = (msg: string) => {
   });
 };
 
+const handleSuccessNotification = (title: string, msg: string) => {
+  showNotification({
+    title: title,
+    message: msg,
+    color: 'green',
+  });
+};
+
 export const useApiAuth = () => {
   const { redirectTo } = useGlobalCtx();
+
+  const { fetchData } = useFetch();
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
-  console.log(redirectTo);
 
   const [isLoading, setLoading] = useState(false);
 
@@ -76,11 +86,10 @@ export const useApiAuth = () => {
 
     if (error) return handleErrorNotification(error.message);
 
-    showNotification({
-      title: 'Email sent successfully!',
-      message: 'Click on the link we sent you to reset your password',
-      color: 'green',
-    });
+    handleSuccessNotification(
+      'Email sent successfully!',
+      'Click on the link we sent you to reset your password'
+    );
   };
 
   const auth_resetPassword = async (password: string) => {
@@ -126,11 +135,10 @@ export const useApiAuth = () => {
 
   //   if (error) return handleErrorNotification(error.message);
 
-  //   showNotification({
-  //     title: 'Email sent successfully!',
-  //     message: 'Click on the link in your mail to log in',
-  //     color: 'green',
-  //   });
+  // handleSuccessNotification(
+  //   'Email sent successfully!',
+  //   'Click on the link we sent you to reset your password'
+  // );
   // };
 
   // ----------------------------------------------------------------------------
@@ -159,6 +167,29 @@ export const useApiAuth = () => {
     });
   };
 
+  // ----------------------------------------------------------------------------
+  // Delete Account
+  // ----------------------------------------------------------------------------
+
+  const auth_deleteAccount = async (id: string) => {
+    setLoading(true);
+
+    const res = await fetchData('/api/deleteUser?id=' + id, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    if (!res.success) return handleErrorNotification(res.message);
+
+    handleSuccessNotification('Account deleted!', res.message);
+
+    setLoading(false);
+
+    router.push('/user/deleted');
+  };
+
   return {
     isLoading,
     auth_signUp,
@@ -169,5 +200,6 @@ export const useApiAuth = () => {
     auth_signInWithGitLab,
     auth_resetPassword,
     auth_forgotPassword,
+    auth_deleteAccount,
   };
 };
