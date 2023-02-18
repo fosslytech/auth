@@ -1,6 +1,14 @@
 import { useRouter } from 'next/router';
 
-import { Header, Text, Flex, useMantineTheme, useMantineColorScheme, MediaQuery } from '@mantine/core';
+import {
+  Header,
+  Text,
+  Flex,
+  useMantineTheme,
+  useMantineColorScheme,
+  MediaQuery,
+  Button,
+} from '@mantine/core';
 
 import useGlobalCtx from 'src/store/global/use-global-ctx';
 import Logo from '@icons/Logo';
@@ -27,6 +35,10 @@ const AppHeader = () => {
         <div style={{ flex: 1 }}></div>
 
         {process.env.NODE_ENV === 'development' && <Text>{redirectTo}</Text>}
+
+        <Button size="sm" ml="lg" onClick={() => window.location.replace(redirectTo)}>
+          Go back
+        </Button>
       </div>
     </Header>
   );

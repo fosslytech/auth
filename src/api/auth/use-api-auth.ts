@@ -22,6 +22,7 @@ export const useApiAuth = () => {
   const { redirectTo } = useGlobalCtx();
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
+  console.log(redirectTo);
 
   const [isLoading, setLoading] = useState(false);
 
