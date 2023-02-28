@@ -19,13 +19,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { data: data1, error: error1 } = await supabaseServerAdmin.auth.getUser();
 
   // Handle error1
-  if (error1) return res.status(400).json({ success: false, message: 'No user found' });
+  if (error1 || !data1) return res.status(400).json({ error: true, message: 'No user found', data: null });
 
-  // Delete user account
-  const { data: data2, error: error2 } = await supabaseServerAdmin.auth.admin.deleteUser(data1.user.id);
+  // ---------------------------------------------------------------------------
+  // Delete all user documents
+  // ---------------------------------------------------------------------------
+
+  const { error: error2 } = await supabaseServerAdmin
+    .from('documents')
+    .delete()
+    .match({ user_id: data1.user.id });
 
   // Handle error2
-  if (error2) return res.status(400).json({ success: false, message: error2.message });
+  if (error2) return res.status(400).json({ error: true, message: error2.message, data: null });
 
-  return res.status(200).json({ success: true, message: 'Your data was successfully removed' });
+  // ---------------------------------------------------------------------------
+  // Delete all user keys
+  // ---------------------------------------------------------------------------
+
+  const { error: error3 } = await supabaseServerAdmin.from('keys').delete().match({ user_id: data1.user.id });
+
+  // Handle error3
+  if (error3) return res.status(400).json({ error: true, message: error3.message, data: null });
+
+  // Delete user account
+  const { error: error4 } = await supabaseServerAdmin.auth.admin.deleteUser(data1.user.id);
+
+  // Handle error4
+  if (error4) return res.status(400).json({ error: true, message: error4.message, data: null });
+
+  return res.status(200).json({ error: false, message: 'Your data was successfully removed', data: null });
 };

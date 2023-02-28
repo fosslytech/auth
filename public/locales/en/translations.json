@@ -79,10 +79,10 @@
         "title": "Danger zone",
 
         "deleteDocDescription": "This action is irreversable, you won't be able to recover your documents!",
-        "deleteDocButton": "Delete my documents",
+        "deleteDocButton": "Delete all my documents",
 
         "deleteAccDescription": "Once you delete your account there is no going back, all your data and documents are gone forever!",
-        "deleteAccButton": "Delete account"
+        "deleteAccButton": "Delete my account"
       }
     },
     "user_deleted": {
