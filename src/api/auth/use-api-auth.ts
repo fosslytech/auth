@@ -171,10 +171,10 @@ export const useApiAuth = () => {
   // Delete Account
   // ----------------------------------------------------------------------------
 
-  const auth_deleteAccount = async (id: string) => {
+  const auth_deleteAccount = async () => {
     setLoading(true);
 
-    const res = await fetchData('/api/deleteUser?id=' + id, {
+    const res = await fetchData('/api/deleteUser', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -190,6 +190,27 @@ export const useApiAuth = () => {
     router.push('/user/deleted');
   };
 
+  // ----------------------------------------------------------------------------
+  // Delete All Documents
+  // ----------------------------------------------------------------------------
+
+  const auth_deleteAllDocuments = async () => {
+    setLoading(true);
+
+    const res = await fetchData('/api/deleteDocs', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    if (!res.success) return handleErrorNotification(res.message);
+
+    handleSuccessNotification('Data deleted!', res.message);
+
+    setLoading(false);
+  };
+
   return {
     isLoading,
     auth_signUp,
@@ -201,5 +222,6 @@ export const useApiAuth = () => {
     auth_resetPassword,
     auth_forgotPassword,
     auth_deleteAccount,
+    auth_deleteAllDocuments,
   };
 };

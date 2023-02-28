@@ -5,12 +5,14 @@ import useGlobalCtx from 'src/store/global/use-global-ctx';
 import { IconBrandGithub, IconBrandGitlab, IconDownload, IconMail, IconUser } from '@tabler/icons-react';
 import { useSession } from '@supabase/auth-helpers-react';
 import useDownload from '@hooks/use-download';
+import { useResponsive } from '@hooks/use-responsive';
 
 const Details = () => {
   const { translate, content } = useGlobalCtx();
   const { jsFileDownload } = useDownload();
   const theme = useMantineTheme();
   const session = useSession();
+  const isSm = useResponsive('max', 'sm');
 
   // GitHub metadata
   const ghImg = session.user.user_metadata?.avatar_url;
@@ -44,28 +46,35 @@ const Details = () => {
 
       <Divider my="md" />
 
-      <Flex align="center">
-        <Avatar size="xl" radius="xl" mr="md" src={avatarUrl} />
+      <Flex
+        align={isSm ? 'start' : 'center'}
+        justify="space-between"
+        direction={isSm ? 'column' : 'row'}
+        gap="xl"
+      >
+        <Flex align="center">
+          <Avatar size="xl" radius="xl" mr="md" src={avatarUrl} />
 
-        <div style={{ flex: 1 }}>
-          {username && (
-            <Flex align="center" mb="xs">
-              {providerIcon[provider]}
+          <div style={{ flex: 1 }}>
+            {username && (
+              <Flex align="center" mb="xs">
+                {providerIcon[provider]}
 
-              <Text weight={600} size="xl" ml="xs" truncate>
-                {username}
+                <Text weight={600} size="xl" ml="xs" truncate>
+                  {username}
+                </Text>
+              </Flex>
+            )}
+
+            <Flex align="center">
+              <IconMail size={24} />
+
+              <Text size="md" weight={500} color="dimmed" ml="xs" mb={2} truncate>
+                {session.user.email}
               </Text>
             </Flex>
-          )}
-
-          <Flex align="center">
-            <IconMail size={24} />
-
-            <Text size="md" weight={500} color="dimmed" ml="xs" mb={2} truncate>
-              {session.user.email}
-            </Text>
-          </Flex>
-        </div>
+          </div>
+        </Flex>
 
         <div style={{ flex: 1 }}></div>
 
